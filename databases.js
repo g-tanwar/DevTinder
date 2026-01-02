@@ -39,7 +39,10 @@ async function main(){
     console.log("Total number of Documents =>", countResult);
 
     
-    // Finding Specific 
+    // Finding Specific User
+
+    const result = await collection.find({city:"Sonipat"}).toArray();
+    console.log("result =>", result)
 
     return "done.";
 
