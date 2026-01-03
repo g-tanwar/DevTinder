@@ -1,5 +1,21 @@
 {
   "dependencies": {
+    "express": "^5.2.1",
     "mongodb": "^7.0.0"
-  }
+  },
+  "name": "devtinder",
+  "version": "1.0.0",
+  "description": "Tinder for Developers ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"node src/app.js",
+    "dev": "nodemon src/app.js"
+  },
+  "keywords": [
+    "ndoejs",
+    "javascript"
+  ],
+  "author": "Gourav Tanwar",
+  "license": "ISC"
 }

@@ -39,6 +39,7 @@
        - Status
 
 2. API's Design:
+
     - POST /Signup
     - Post /login
     - GET /profile (fetching info)
@@ -49,6 +50,6 @@
     - POST /review_request   1.Accept  2.Reject
     - GET /requests
     - GET /Connections
-    
+
 
 
