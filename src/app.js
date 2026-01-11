@@ -2,20 +2,24 @@ const express = require('express');
 
 const app =  express();
 
-app.use("/user", (req,res,next) =>{
-      // route handler
+const {adminAuth,UserAuth} = require("./middlewares/auth")
 
-    console.log("Handling route here...")  
-    next();
-    res.send("Route Hnandler 1...");
-    
-},
-(req,res) =>{
-    console.log("2nd handler here")
-    res.send("Route handler 2..");      
-          // should never give a multiple router
-}
-);
+app.use("/admin",adminAuth);
+app.use("/user",UserAuth);
+
+app.get("/admin/getAllData" ,(req,res,next) =>{
+    // logic of getting data
+    res.send("All data send")
+})
+
+app.post("/user/login",(req,res) =>{
+    res.send("User logged in Successfully")
+});
+app.delete("/admin/deleteTheUser",(req,res,next) =>{
+    // logic of deleting the user
+
+    res.send("User deleted Successfully")
+})
 
 
 app.listen(3000,()=>{
