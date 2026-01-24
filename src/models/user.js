@@ -8,6 +8,9 @@ const userSchema = new mongoose.Schema({
     lastName: {
         type: String
     },
+    emailId: { 
+        type: String,
+    },
     password: {
         type: String
     },
@@ -17,11 +20,7 @@ const userSchema = new mongoose.Schema({
     gender: {
         type: String
     },
-    emailId: { 
-        type: String,
-        required: true,
-        unique: true
-    }
+   
 })
 
 const UserModel = mongoose.model("User",userSchema);

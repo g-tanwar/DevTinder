@@ -38,9 +38,14 @@ app.get("/user",async (req,res)=> {
     console.log("Searching for:", userEmail);
 
     try{
-         const user = await  User.find({ emailId: userEmail});
+         const user = await  User.findOne({ emailId: userEmail});
 
-         res.send(user)
+         if(!user){
+            res.status(404)/send("User not found")
+         }else{
+            res.send(user)
+         }
+         
 
     }
     catch(err){
@@ -51,8 +56,23 @@ app.get("/user",async (req,res)=> {
 
 
 // Feed api - GET/feed - get all the users from the database
-app.get("/feed", (req,res) =>{
+app.get("/feed", async (req,res) =>{
+    try{
+        const users = await User.find({});
+        res.send(users);
 
+    }catch(err){
+        res.status(400).send("Something went wrong")
+    }
+})
+
+app.get("/byId",async (req,res)=> {
+    try{
+        const user = await User.findById("697548fcb0ed44d55222833e")
+        res.send(user)
+    }catch(err){
+        res.status(404).send("Id is not correct")
+    }
 })
 
 connectDB().then(()=>{
