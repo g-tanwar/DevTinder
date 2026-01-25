@@ -3,24 +3,49 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
 
     firstName: {
-        type: String
+        type: String,
+        required : true,
+        maxLength: 50,
     },
     lastName: {
-        type: String
+        type: String,
+
     },
     emailId: { 
         type: String,
+        required: true,
+        unique: true,
+        lowercase: true,
+        trim: true
     },
     password: {
-        type: String
+        type: String,
+        required: true
     },
     age: {
-        type: Number
+        type: Number,
+        min: 18
     },
     gender: {
-        type: String
+        type: String,
+        validate(value){
+            if(!["males","females","others"].includes(value)){
+                throw new Error("Gender data is not valid")
+            }
+        }
+
     },
-   
+   photoUrl:{
+    type: String,
+    default: "https://wallpapers-clan.com/pfp/default/"
+   },
+   about: {
+    type: String,
+    default : "Can't talk DevTinder Only"
+   },
+   skills: {
+    type: [String],
+   }
 })
 
 const UserModel = mongoose.model("User",userSchema);

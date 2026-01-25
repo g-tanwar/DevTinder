@@ -110,9 +110,13 @@ app.patch("/user", async(req,res)=>{
     }
 })
 
-connectDB().then(()=>{
+connectDB().then(async ()=>{
     console.log("database connected successfully...")
+    
+    // Keep only this:
+    await User.createIndexes();
 
+    
     app.listen(3000,()=>{
         console.log("server has been started successfully...")
     });
@@ -120,6 +124,3 @@ connectDB().then(()=>{
 }).catch((error) =>{
     console.error("could not connect database")
 })
-
-
-  
