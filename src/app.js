@@ -75,6 +75,41 @@ app.get("/byId",async (req,res)=> {
     }
 })
 
+//deleting the user by it's id 
+
+app.delete("/user", async(req,res)=>{
+
+    const userId = req.body.userId;
+    try{
+        // const user = await User.findByIdAndDelete({_id: userId})
+        const user = await User.findByIdAndDelete(userId)
+
+        res.send("user deleted successfully")
+    
+    }catch(err){
+        res.status(404).send("Id is not correct")
+    }
+})
+
+// updatting the user data 
+
+app.patch("/user", async(req,res)=>{
+
+    const userId = req.body.userId;
+    const data = req.body;
+
+    try{
+        const user = await User.findByIdAndUpdate({_id: userId},data,{
+            returnDocument: "after" });
+
+        console.log(user);
+
+        res.send("User updated successfully")
+    }catch(err){
+        res.status(404).send("Something is wrong")
+    }
+})
+
 connectDB().then(()=>{
     console.log("database connected successfully...")
 
