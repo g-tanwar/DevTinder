@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const validator = require('validator')
 const userSchema = new mongoose.Schema({
 
     firstName: {
@@ -16,11 +16,21 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true,
         lowercase: true,
-        trim: true
+        trim: true,
+        validator(value){
+            if(!validator.isEmail(value)){
+                throw new Error("Invalid User Email: "+ value)
+            }
+        }
     },
     password: {
         type: String,
-        required: true
+        required: true,
+        validate(value){
+            if(!validator.isStrongPassword){
+                throw new Error("Enter a Strong Password (privacy matters)"+ value)
+            }
+        }
     },
     age: {
         type: Number,
@@ -37,7 +47,12 @@ const userSchema = new mongoose.Schema({
     },
    photoUrl:{
     type: String,
-    default: "https://wallpapers-clan.com/pfp/default/"
+    default: "https://wallpapers-clan.com/pfp/default/",
+    validate(value){
+        if(!validator.isURL(value)){
+            throw new Error("Invalid Photo Url" + value)
+        }
+    }
    },
    about: {
     type: String,
