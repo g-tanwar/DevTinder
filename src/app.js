@@ -4,10 +4,12 @@ const app =  express();
 const User = require("./models/user");
 const { model } = require('mongoose');
 const { validateSignUpData } = require('./Utils/Validation')
-const bcrypt = requrire('bcrypt')
+const validator = require("validator");
+const bcrypt = require('bcrypt')
 
 app.use(express.json());
 
+// signup 
 app.post("/signup",async (req,res) =>{
 
  try{    
@@ -15,8 +17,10 @@ app.post("/signup",async (req,res) =>{
 validateSignUpData(req);
 
 const {firstName,lastName,emailId,password }= req.body;
+
 // Encrypt the Passsword
 const passwordHash = await bcrypt.hash(password,10)
+
 
 // Creating a new user 
     const user = new User({
@@ -33,6 +37,35 @@ const passwordHash = await bcrypt.hash(password,10)
         res.status(400).send("Error :"+ error.message); 
     }
    
+})
+
+// login
+app.post("/login",async (req,res) =>{
+    try{
+
+        const {emailId,password} = req.body;
+
+        const user = await User.findOne({emailId:emailId});
+
+        if(!validator.isEmail){
+            throw new Error("Please Enter a valid Email ID")
+        }
+
+        if(!user){
+            throw new Error("Email not Registered")
+        }
+
+        const ispasswordValid = await bcrypt.compare(password,user.password);
+
+        if(ispasswordValid){
+            res.send("Login Successfull")
+        }else{
+            throw new Error("Wrong Password")
+        }
+
+    }catch(err){
+        res.status(400).send("Error : " + err.message)
+    }
 })
 
 // Find user by email
